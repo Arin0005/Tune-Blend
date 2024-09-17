@@ -23,6 +23,7 @@ class PlayerController extends GetxController {
     checkPermission();
   }
 
+  // constantly updates the audio slider
   updatePosition() {
     audioPlayer.durationStream.listen((d) {
       // Ensure the duration (d) is not null before accessing it
@@ -41,6 +42,8 @@ class PlayerController extends GetxController {
     });
   }
 
+
+  // helper funtion to check the audio length
   String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twoDigits(duration.inMinutes.remainder(60));
@@ -48,10 +51,13 @@ class PlayerController extends GetxController {
     return "$minutes:$seconds";
   }
 
+
+  // changes duration of song in seconds
   void changeDurationToSeconds(int seconds) {
     var newDuration = Duration(seconds: seconds);
     audioPlayer.seek(newDuration);  // Seek to the new position
   }
+
 
   // Play song from URI
   void playSong(String? uri, index) {
@@ -72,6 +78,7 @@ class PlayerController extends GetxController {
     }
   }
 
+
   // Check and request permissions for accessing storage
   Future<void> checkPermission() async {
     var permission = await Permission.storage.request();
@@ -83,6 +90,7 @@ class PlayerController extends GetxController {
       print("Storage permission denied.");
     }
   }
+
 
   // Fetch songs and store them in the songs list
   Future<void> fetchSongs() async {
@@ -98,6 +106,7 @@ class PlayerController extends GetxController {
       print("Error fetching songs: $e");
     }
   }
+
 
   // Dispose the audio player when the controller is destroyed
   @override
